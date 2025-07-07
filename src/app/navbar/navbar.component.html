@@ -1,0 +1,20 @@
+<div class="card">
+  <p-menubar [model]="items">
+    <ng-template #start>
+      <span style="font-size: 1.5rem; font-weight: bold; color: #6366f1; letter-spacing: 1px;">ANZER</span>
+    </ng-template>
+    <ng-template #end>
+      <p-iconfield>
+        <p-inputicon class="pi pi-search"/>
+        <div class="flex items-center gap-2">
+          <p-iconfield>
+            <p-inputicon class="pi pi-search"/>
+            <input type="text" pInputText placeholder="Search"/>
+          </p-iconfield>
+          <p-avatar
+            image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle"/>
+        </div>
+      </p-iconfield>
+    </ng-template>
+  </p-menubar>
+</div>
