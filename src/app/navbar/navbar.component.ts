@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit{
         label: 'Accounts',
         icon: 'pi pi-id-card',
         command: () => {
-          this.router.navigate(['/dash']);
+          this.router.navigate(['/account-search']);
         }
       },
       {

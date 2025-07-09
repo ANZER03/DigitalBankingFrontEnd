@@ -1,0 +1,121 @@
+<p-toast />
+<div class="card enhanced-form-card" *ngIf="newCustomerFormGroup">
+  <h3 class="form-title font-bold">Add New Customer</h3>
+
+  <form [formGroup]="newCustomerFormGroup" (ngSubmit)="saveCustomer()">
+    <div class="p-fluid form-fields">
+      <div class="field">
+        <label for="name">Name</label>
+        <input
+          pInputText
+          id="name"
+          formControlName="name"
+          placeholder="Enter customer name"
+          [class.ng-invalid]="newCustomerFormGroup.get('name')?.invalid && newCustomerFormGroup.get('name')?.touched"
+        />
+        <small
+          *ngIf="newCustomerFormGroup.get('name')?.invalid && newCustomerFormGroup.get('name')?.touched"
+        >
+          <p-message severity="error" variant="simple">Name is not valid</p-message>
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          pInputText
+          id="email"
+          formControlName="email"
+          placeholder="Enter customer email"
+          [class.ng-invalid]="newCustomerFormGroup.get('email')?.invalid && newCustomerFormGroup.get('email')?.touched"
+        />
+        <small
+          *ngIf="newCustomerFormGroup.get('email')?.invalid && newCustomerFormGroup.get('email')?.touched"
+        >
+          <p-message severity="error" variant="simple">Email is not valid</p-message>
+        </small>
+      </div>
+
+      <div class="field button-row">
+        <p-button
+          label="Save"
+          icon="pi pi-check"
+          type="submit"
+          size="small"
+          [disabled]="newCustomerFormGroup.invalid"
+        ></p-button>
+        <p-button
+          label="Cancel"
+          icon="pi pi-times"
+          severity="secondary"
+          type="button"
+          size="small"
+          (click)="cancel()"
+        ></p-button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<style>
+.enhanced-form-card {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  border-radius: 12px;
+  background: #fff;
+}
+.form-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.form-fields .field {
+  margin-bottom: 1.25rem;
+}
+.form-fields label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #34495e;
+}
+.form-fields input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+.form-fields input.ng-invalid.ng-touched {
+  border-color: #e74c3c;
+}
+.p-error {
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.save-btn ::ng-deep button {
+  background: #1976d2 !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+}
+.cancel-btn ::ng-deep button {
+  background: #f4f4f4 !important;
+  color: #333 !important;
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+}
+</style>

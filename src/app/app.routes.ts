@@ -4,10 +4,11 @@ import {DashComponent} from './dash/dash.component';
 import {LoginComponent} from './login/login.component';
 import {CustomerComponent} from './customer/customer.component';
 import {NewCustomerComponent} from './new-customer/new-customer.component';
+import {AccountComponent} from './account/account.component';
 
 export const routes: Routes = [
   { path: 'new-customer', component: NewCustomerComponent},
-  {path : "dash" , component : DashComponent},
+  {path : "account-search" , component : AccountComponent},
   {path : "login" , component : LoginComponent},
-  {path : "customer" , component : CustomerComponent}
+  {path : "customer" , component : CustomerComponent},
 ];

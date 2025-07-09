@@ -1,0 +1,556 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-4">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header Card -->
+    <div class="bg-white/95 backdrop-blur-sm rounded-2xl border border-gray-200/50 mb-6 p-6">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+          <i class="pi pi-user text-white text-xl"></i>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Account Management</h1>
+          <p class="text-gray-600">Search and manage account details</p>
+        </div>
+      </div>
+
+      <!-- Search Form -->
+      <div *ngIf="accountFormGroup">
+        <form [formGroup]="accountFormGroup">
+          <div class="bg-gray-50/50 rounded-xl p-6 border border-gray-100">
+            <div class="flex flex-col lg:flex-row items-start lg:items-end gap-4">
+              <div class="flex-1 w-full">
+                <label for="accountId" class="block text-sm font-semibold text-gray-700 mb-2">Account ID</label>
+                <input
+                  pInputText
+                  formControlName="accountId"
+                  id="accountId"
+                  class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all text-gray-900 placeholder-gray-500"
+                  placeholder="Enter account ID..."
+                  autocomplete="off"
+                />
+              </div>
+              <div class="w-full lg:w-auto">
+                <p-button
+                  (onClick)="SearchAccount()"
+                  label="Search Account"
+                  icon="pi pi-search"
+                  class="w-full lg:w-auto whitespace-nowrap"
+                  [rounded]="true"
+                  [raised]="true"
+                  size="large"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Account Details Card -->
+    <ng-container *ngIf="accountDetails | async as AccountDetails">
+      <div class="bg-white/95 backdrop-blur-sm rounded-2xl border border-gray-200/50 mb-6 p-6">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+            <i class="pi pi-check-circle text-green-600 text-lg"></i>
+          </div>
+          <h2 class="text-xl font-bold text-gray-900">Account Details</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Account ID -->
+          <div class="bg-gradient-to-r from-blue-50 to-blue-100/50 rounded-xl p-6 border border-blue-200/50">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="pi pi-id-card text-white text-lg"></i>
+              </div>
+              <div class="min-w-0">
+                <label class="block text-sm font-semibold text-blue-700 mb-1">Account ID</label>
+                <span class="text-xl font-bold text-gray-900 break-all">{{ AccountDetails.id }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Account Balance -->
+          <div class="bg-gradient-to-r from-green-50 to-green-100/50 rounded-xl p-6 border border-green-200/50">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="pi pi-wallet text-white text-lg"></i>
+              </div>
+              <div class="min-w-0">
+                <label class="block text-sm font-semibold text-green-700 mb-1">Current Balance</label>
+                <span class="text-xl font-bold text-gray-900">{{ AccountDetails.balance | number : '1.2-2' }} DH</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Debit Operation Dialog -->
+    <p-dialog
+      header="Debit Operation"
+      [(visible)]="showDebitDialog"
+      [modal]="true"
+      [style]="{width: '450px'}"
+      [draggable]="false"
+      [resizable]="false"
+      styleClass="custom-dialog"
+    >
+      <div class="flex flex-col gap-4">
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+              <i class="pi pi-minus-circle text-red-600 text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-red-800">Debit Transaction</h3>
+              <p class="text-sm text-red-600">Withdraw money from account</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-4" *ngIf="operationFormGroup">
+          <form [formGroup]="operationFormGroup">
+            <div>
+              <label for="debitAmount" class="block text-sm font-semibold text-gray-700 mb-2">
+                <i class="pi pi-dollar mr-2"></i>Amount (DH)
+              </label>
+              <input
+                pInputText
+                id="debitAmount"
+                formControlName="amount"
+                type="number"
+                placeholder="Enter amount..."
+                class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-red-400 focus:ring-4 focus:ring-red-100 transition-all"
+              />
+            </div>
+
+            <div>
+              <label for="debitDescription" class="block text-sm font-semibold text-gray-700 mb-2">
+                <i class="pi pi-file-edit mr-2"></i>Description (Optional)
+              </label>
+              <textarea
+                pInputTextarea
+                id="debitDescription"
+                rows="3"
+                formControlName="description"
+                placeholder="Enter transaction description..."
+                class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-red-400 focus:ring-4 focus:ring-red-100 transition-all resize-none"
+              ></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-3">
+          <p-button
+            label="Cancel"
+            icon="pi pi-times"
+            (onClick)="cancelDebitOperation()"
+            [outlined]="true"
+            severity="secondary"
+          />
+          <p-button
+            label="Process Debit"
+            icon="pi pi-check"
+            (onClick)="processDebitOperation()"
+            severity="danger"
+          />
+        </div>
+      </ng-template>
+    </p-dialog>
+
+    <!-- Credit Operation Dialog -->
+    <p-dialog
+      header="Credit Operation"
+      [(visible)]="showCreditDialog"
+      [modal]="true"
+      [style]="{width: '450px'}"
+      [draggable]="false"
+      [resizable]="false"
+      styleClass="custom-dialog"
+    >
+      <div class="flex flex-col gap-4">
+        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <i class="pi pi-plus-circle text-green-600 text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-green-800">Credit Transaction</h3>
+              <p class="text-sm text-green-600">Add money to account</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <form [formGroup]="operationFormGroup">
+            <div>
+              <label for="creditAmount" class="block text-sm font-semibold text-gray-700 mb-2">
+                <i class="pi pi-dollar mr-2"></i>Amount (DH)
+              </label>
+              <input
+                pInputText
+                id="creditAmount"
+                formControlName="amount"
+                type="number"
+                placeholder="Enter amount..."
+                class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all"
+              />
+            </div>
+
+            <div>
+              <label for="creditDescription" class="block text-sm font-semibold text-gray-700 mb-2">
+                <i class="pi pi-file-edit mr-2"></i>Description (Optional)
+              </label>
+              <textarea
+                pInputTextarea
+                id="creditDescription"
+                rows="3"
+                formControlName="description"
+                placeholder="Enter transaction description..."
+                class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all resize-none"
+              ></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-3">
+          <p-button
+            label="Cancel"
+            icon="pi pi-times"
+            (onClick)="cancelCreditOperation()"
+            [outlined]="true"
+            severity="secondary"
+          />
+          <p-button
+            label="Process Credit"
+            icon="pi pi-check"
+            (onClick)="processCreditOperation()"
+            severity="success"
+          />
+        </div>
+      </ng-template>
+    </p-dialog>
+
+    <!-- Transfer Operation Dialog -->
+    <p-dialog
+      header="Transfer Operation"
+      [(visible)]="showTransferDialog"
+      [modal]="true"
+      [style]="{width: '500px'}"
+      [draggable]="false"
+      [resizable]="false"
+      styleClass="custom-dialog"
+    >
+      <div class="flex flex-col gap-4">
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <i class="pi pi-arrow-right-arrow-left text-blue-600 text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-blue-800">Transfer Transaction</h3>
+              <p class="text-sm text-blue-600">Transfer money to another account</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <form [formGroup]="transferFormGroup">
+            <div>
+              <label for="transferAmount" class="block text-sm font-semibold text-gray-700 mb-2">
+                <i class="pi pi-dollar mr-2"></i>Amount (DH)
+              </label>
+              <input
+                pInputText
+                id="transferAmount"
+                type="number"
+                formControlName="amount"
+                placeholder="Enter amount..."
+                class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all"
+              />
+            </div>
+
+            <div>
+              <label for="destinationAccount" class="block text-sm font-semibold text-gray-700 mb-2">
+                <i class="pi pi-send mr-2"></i>Destination Account
+              </label>
+              <input
+                pInputText
+                formControlName="accountDestination"
+                id="destinationAccount"
+                placeholder="Enter destination account ID..."
+                class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all"
+              />
+            </div>
+
+            <div>
+              <label for="transferDescription" class="block text-sm font-semibold text-gray-700 mb-2">
+                <i class="pi pi-file-edit mr-2"></i>Description (Optional)
+              </label>
+              <textarea
+                pInputTextarea
+                id="transferDescription"
+                rows="3"
+                formControlName="description"
+                placeholder="Enter transfer description..."
+                class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all resize-none"
+              ></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-3">
+          <p-button
+            label="Cancel"
+            icon="pi pi-times"
+            (onClick)="cancelTransferOperation()"
+            [outlined]="true"
+            severity="secondary"
+          />
+          <p-button
+            label="Process Transfer"
+            icon="pi pi-check"
+            (onClick)="processTransferOperation()"
+            severity="info"
+          />
+        </div>
+      </ng-template>
+    </p-dialog>
+
+    <!-- Operations Table Card -->
+    <ng-container *ngIf="accountOperations | async as Operations">
+      <div class="bg-white/95 backdrop-blur-sm rounded-2xl border border-gray-200/50 p-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+              <i class="pi pi-list text-purple-600 text-lg"></i>
+            </div>
+            <h2 class="text-xl font-bold text-gray-900">Transaction History</h2>
+          </div>
+
+          <!-- Add Operation Buttons -->
+          <div class="flex flex-wrap gap-2">
+            <p-button
+              label="Debit"
+              icon="pi pi-minus-circle"
+              (onClick)="addDebitOperation()"
+              [rounded]="true"
+              [outlined]="true"
+              severity="danger"
+              size="small"
+              class="min-w-[80px]"
+            />
+            <p-button
+              label="Credit"
+              icon="pi pi-plus-circle"
+              (onClick)="addCreditOperation()"
+              [rounded]="true"
+              [outlined]="true"
+              severity="success"
+              size="small"
+              class="min-w-[80px]"
+            />
+            <p-button
+              label="Transfer"
+              icon="pi pi-arrow-right-arrow-left"
+              (onClick)="addTransferOperation()"
+              [rounded]="true"
+              [outlined]="true"
+              severity="info"
+              size="small"
+              class="min-w-[90px]"
+            />
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-xl border border-gray-200">
+          <p-table
+            #dt
+            [value]="Operations"
+            [paginator]="true"
+            [rows]="5"
+            stripedRows
+            (onPage)="pageChange($event)"
+            [tableStyle]="{ 'min-width': '100%', 'font-weight': '400' }"
+            [rowsPerPageOptions]="[5, 10, 20]"
+            class="modern-table"
+          >
+            <ng-template #caption>
+              <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <i class="pi pi-history text-blue-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Recent Operations</h3>
+                  </div>
+                  <div class="text-sm text-gray-600">
+                    <i class="pi pi-info-circle mr-1"></i>
+                    Showing latest transactions
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+
+            <ng-template #header>
+              <tr class="bg-gray-50 text-gray-700 text-sm font-semibold">
+                <th pSortableColumn="id" style="width:20%" class="py-4 px-6 text-left">
+                  <div class="flex items-center gap-2">
+                    <i class="pi pi-hashtag text-gray-500"></i>
+                    <span>Transaction ID</span>
+                    <p-sortIcon field="id"/>
+                  </div>
+                </th>
+                <th pSortableColumn="date" style="width:25%" class="py-4 px-6 text-left">
+                  <div class="flex items-center gap-2">
+                    <i class="pi pi-calendar text-gray-500"></i>
+                    <span>Date</span>
+                    <p-sortIcon field="date"/>
+                  </div>
+                </th>
+                <th pSortableColumn="amount" style="width:25%" class="py-4 px-6 text-left">
+                  <div class="flex items-center gap-2">
+                    <i class="pi pi-dollar text-gray-500"></i>
+                    <span>Amount</span>
+                    <p-sortIcon field="amount"/>
+                  </div>
+                </th>
+                <th pSortableColumn="type" style="width:20%" class="py-4 px-6 text-left">
+                  <div class="flex items-center gap-2">
+                    <i class="pi pi-tags text-gray-500"></i>
+                    <span>Type</span>
+                    <p-sortIcon field="type"/>
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template #body let-operation>
+              <tr class="border-b border-gray-100 hover:bg-blue-50/30 transition-all duration-200">
+                <td class="py-4 px-6 text-gray-800">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <i class="pi pi-file text-gray-600 text-xs"></i>
+                    </div>
+                    <span class="font-medium">{{ operation.id }}</span>
+                  </div>
+                </td>
+                <td class="py-4 px-6 text-gray-700">
+                  <div class="flex items-center gap-2">
+                    <i class="pi pi-calendar-plus text-gray-500"></i>
+                    <span>{{ operation.operationDate | date : "dd-MM-yyyy" }}</span>
+                  </div>
+                </td>
+                <td class="py-4 px-6">
+                  <div class="flex items-center gap-2">
+                    <i class="pi pi-money-bill text-gray-500"></i>
+                    <span class="font-semibold text-gray-800">{{ operation.amount | number : "1.2-2" }} DH</span>
+                  </div>
+                </td>
+                <td class="py-4 px-6">
+                  <p-tag
+                    value="{{ operation.operationType.toLowerCase()}}"
+                    [severity]="operation.operationType === 'DEBIT' ? 'danger' : 'success'"
+                    class="text-sm font-medium"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Enhanced Styles -->
+    <style>
+      .modern-table {
+        @apply border-separate border-spacing-0;
+      }
+
+      .modern-table .p-datatable-wrapper {
+        @apply rounded-xl overflow-hidden;
+      }
+
+      .modern-table .p-paginator {
+        @apply bg-gray-50/50 border-t border-gray-200 rounded-b-xl;
+      }
+
+      .modern-table .p-paginator .p-paginator-pages .p-paginator-page {
+        @apply rounded-lg min-w-[2.5rem] h-10 mx-1 transition-all duration-200 hover:bg-blue-100 hover:text-blue-700;
+      }
+
+      .modern-table .p-paginator .p-paginator-page.p-highlight {
+        @apply bg-blue-500 text-white shadow-md;
+      }
+
+      .modern-table .p-paginator .p-paginator-first,
+      .modern-table .p-paginator .p-paginator-prev,
+      .modern-table .p-paginator .p-paginator-next,
+      .modern-table .p-paginator .p-paginator-last {
+        @apply rounded-lg min-w-[2.5rem] h-10 mx-1 transition-all duration-200 hover:bg-blue-100 hover:text-blue-700;
+      }
+
+      .modern-table .p-dropdown {
+        @apply rounded-lg border-gray-200;
+      }
+
+      .modern-table p-tag {
+        @apply inline-flex items-center gap-1;
+      }
+
+      .modern-table p-tag::before {
+        content: '';
+        @apply w-2 h-2 rounded-full mr-1;
+      }
+
+      .modern-table p-tag[severity="danger"]::before {
+        @apply bg-red-500;
+      }
+
+      .modern-table p-tag[severity="success"]::before {
+        @apply bg-green-500;
+      }
+
+      /* Custom scrollbar */
+      .modern-table ::-webkit-scrollbar {
+        @apply w-2 h-2;
+      }
+
+      .modern-table ::-webkit-scrollbar-track {
+        @apply bg-gray-100 rounded-full;
+      }
+
+      .modern-table ::-webkit-scrollbar-thumb {
+        @apply bg-gray-300 rounded-full hover:bg-gray-400;
+      }
+
+      /* Enhanced button styles */
+      p-button button {
+        @apply transition-all duration-200;
+      }
+
+      /* Enhanced input styles */
+      input[pInputText]:focus {
+        @apply ring-4 ring-blue-100 border-blue-400;
+      }
+
+      /* Responsive enhancements */
+      @media (max-width: 640px) {
+        .modern-table table {
+          @apply text-sm;
+        }
+
+        .modern-table th,
+        .modern-table td {
+          @apply px-3 py-2;
+        }
+      }
+    </style>
+  </div>
+</div>

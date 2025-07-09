@@ -1,0 +1,123 @@
+<div>
+  <p-confirmdialog/>
+  <p-toast/>
+  <ng-container *ngIf="customers | async as listCustomers; else failureOrLading">
+
+
+    <div
+      class="bg-white/90 backdrop-blur-md rounded-xl shadow-sm border border-gray-100 m-4 p-6 max-w-5xl mx-auto transition-all duration-300">
+      <!--  <p-confirmdialog/>-->
+      <!--  <p-toast/>-->
+      <p-table
+        #dt
+        [value]="listCustomers"
+        [paginator]="true"
+        [rows]="5"
+        stripedRows
+        [tableStyle]="{ 'min-width': '100%', 'font-weight': '400' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        class="modern-table"
+      >
+        <ng-template #caption>
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
+            <h4 class="text-xl font-semibold text-gray-800">Manage Customers</h4>
+            <div *ngIf="searchFormGroup" class="w-full sm:w-auto">
+              <form [formGroup]="searchFormGroup" (ngSubmit)="searchCustomers()" class="flex items-center gap-2">
+                <p-iconfield class="relative w-full sm:w-64">
+                  <input
+                    pInputText
+                    pSize="small"
+                    formControlName="keyword"
+                    type="text"
+                    placeholder="Search..."
+                    class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
+                  />
+                </p-iconfield>
+                <button>
+                  <p-button icon="pi pi-search" label="" class="ml-2" [rounded]="true" [outlined]="true" [text]="true"
+                            [raised]="true"/>
+                </button>
+              </form>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #header>
+          <tr class="bg-gray-50 text-gray-600 text-sm font-medium">
+            <th pSortableColumn="id" style="width:20%" class="py-3 px-4 text-left">
+              Id
+              <p-sortIcon field="id"/>
+            </th>
+            <th pSortableColumn="name" style="width:20%" class="py-3 px-4 text-left">Name
+              <p-sortIcon field="name"/>
+            </th>
+            <th pSortableColumn="email" style="width:20%" class="py-3 px-4 text-left">Email
+              <p-sortIcon field="email"/>
+            </th>
+            <th style="width:20%" class="py-3 px-4 text-left"></th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-customer>
+          <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+            <td class="py-3 px-4 text-gray-700">{{ customer.id }}</td>
+            <td class="py-3 px-4 text-gray-700">{{ customer.name }}</td>
+            <td class="py-3 px-4 text-gray-700">{{ customer.email }}</td>
+            <td class="py-3 px-4">
+              <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="updateDialog(customer)"/>
+              <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (click)="handleDeleteCustomer(customer, $event)"/>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+      <span class="p-text-secondary block mb-8">Update Customer Information.</span>
+      <div *ngIf="updateFormGroup">
+        <form [formGroup]="updateFormGroup">
+          <div class="flex items-center gap-4 mb-4">
+            <label for="username" class="font-semibold w-24">Username</label>
+            <input formControlName="name" pInputText id="username" class="flex-auto" autocomplete="off"/>
+          </div>
+          <div class="flex items-center gap-4 mb-8">
+            <label for="email" class="font-semibold w-24">Email</label>
+            <input pInputText formControlName="email" id="email" class="flex-auto" autocomplete="off"/>
+          </div>
+          <div class="flex justify-end gap-2">
+            <p-button label="Cancel" severity="secondary" (click)="visible = false"/>
+            <p-button label="Save" (click)="saveUpdatedCustomer()"/>
+          </div>
+        </form>
+      </div>
+    </p-dialog>
+
+    <style>
+      .modern-table {
+        @apply border-separate border-spacing-y-1;
+      }
+
+      .modern-table .p-paginator {
+        @apply bg-transparent border-t border-gray-100 pt-4 mt-4;
+      }
+
+      .modern-table .p-paginator .p-paginator-pages .p-paginator-page {
+        @apply rounded-full min-w-[2rem] h-8 mx-1 transition-colors hover:bg-blue-100;
+      }
+
+      .modern-table .p-paginator .p-paginator-page.p-highlight {
+        @apply bg-blue-500 text-white;
+      }
+    </style>
+  </ng-container>
+  <ng-template #failureOrLading>
+    <ng-container *ngIf="errorMessage; else loading">
+      <p-message size="large" severity="error" icon="pi pi-times-circle" styleClass="m-8 max-w-md mx-auto">Server
+        Error
+      </p-message>
+    </ng-container>
+    <ng-template #loading>
+      <div class="card flex justify-center">
+        <p-progress-spinner ariaLabel="loading"/>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>
