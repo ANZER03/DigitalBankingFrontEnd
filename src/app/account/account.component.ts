@@ -14,9 +14,11 @@ import {AccountDetails, AccountOperationDTO} from '../models/account.model';
 import {AccountService} from '../services/account.service';
 import {catchError, Observable, throwError} from 'rxjs';
 import {Tag} from 'primeng/tag';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-account',
+  providers : [MessageService],
   imports: [
     AsyncPipe,
     Button,
@@ -46,7 +48,7 @@ export class AccountComponent implements OnInit {
   showDebitDialog: boolean = false;
   showCreditDialog: boolean = false;
   showTransferDialog: boolean = false;
-  constructor(private fb: FormBuilder, private accountService: AccountService) {
+  constructor(private fb: FormBuilder, private accountService: AccountService, private messageService: MessageService) {
   }
 
   ngOnInit(): void {
@@ -119,9 +121,10 @@ export class AccountComponent implements OnInit {
         this.showDebitDialog= false
         this.operationFormGroup.reset()
         this.SearchAccount()
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Debit Success' });
       },
       error : err => {
-        console.error(err)
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Server Error' });
       }
     })
   }
@@ -144,9 +147,10 @@ export class AccountComponent implements OnInit {
         this.showCreditDialog= false
         this.operationFormGroup.reset()
         this.SearchAccount()
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Credit Success' });
       },
       error : err => {
-        console.error(err)
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Server Error' });
       }
     })
   }
@@ -169,9 +173,10 @@ export class AccountComponent implements OnInit {
         this.showTransferDialog= false
         this.transferFormGroup.reset()
         this.SearchAccount()
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Transfer Success' });
       },
       error : err => {
-        console.error(err)
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Server Error' });
       }
     })
 
