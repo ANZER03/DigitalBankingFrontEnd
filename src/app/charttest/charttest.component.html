@@ -1,30 +1,142 @@
-<div class="grid grid-cols-12 gap-8 m-8">
-<!--  <div class="col-span-12">-->
-<!--    &lt;!&ndash; Placeholder for <app-stats-widget /> &ndash;&gt;-->
-<!--    <div class="card bg-white-50 !mb-8">-->
-<!--      <div class="font-semibold text-xl mb-4">Stats Widget</div>-->
-<!--      &lt;!&ndash; ...existing code or stats content... &ndash;&gt;-->
-<!--    </div>-->
-<!--  </div>-->
-  <div class="col-span-12 xl:col-span-6">
-    <div class="card  p-2 !mb-8 border border-gray-300">
-      <div class="font-semibold text-xl mb-4">Recent Sales</div>
-      <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+<!-- Enhanced Dashboard with Modern Tailwind Styling -->
+<div class="min-h-screen p-4 lg:p-8">
+  <!-- Header Section -->
+  <!-- Main Dashboard Grid -->
+  <div class="grid grid-cols-12 gap-6 lg:gap-8">
+    <!-- Left Column -->
+    <div class="col-span-12 xl:col-span-6 space-y-6">
+      <!-- Recent Sales Card -->
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+        <div class="p-6 lg:p-8">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center">
+                <i class="pi pi-chart-bar text-white text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-gray-800">Recent Sales</h3>
+                <p class="text-gray-500 text-sm">Last 30 days performance</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 text-emerald-600">
+              <i class="pi pi-arrow-up text-sm"></i>
+              <span class="text-sm font-semibold">+12.5%</span>
+            </div>
+          </div>
+          <div class="relative">
+            <p-chart
+              type="bar"
+              [data]="basicData"
+              [options]="basicOptions"
+              class="relative z-10"
+            ></p-chart>
+            <div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent pointer-events-none rounded-xl"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Best Selling Card -->
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+        <div class="p-6 lg:p-8">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                <i class="pi pi-chart-line text-white text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-gray-800">Best Selling</h3>
+                <p class="text-gray-500 text-sm">Top products this month</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 text-purple-600">
+              <i class="pi pi-star-fill text-sm"></i>
+              <span class="text-sm font-semibold">Trending</span>
+            </div>
+          </div>
+          <div class="relative">
+            <p-chart
+              type="line"
+              [data]="basicData"
+              [options]="basicOptions"
+              class="relative z-10"
+            ></p-chart>
+            <div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent pointer-events-none rounded-xl"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card  p-2 !mb-8 border border-gray-300">
-      <div class="font-semibold text-xl mb-4">Best Selling</div>
-      <p-chart type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+
+    <!-- Right Column -->
+    <div class="col-span-12 xl:col-span-6 space-y-6">
+      <!-- Revenue Stream Card -->
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+        <div class="p-6 lg:p-8">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                <i class="pi pi-dollar text-white text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-gray-800">Revenue Stream</h3>
+                <p class="text-gray-500 text-sm">Monthly revenue breakdown</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 text-blue-600">
+              <i class="pi pi-arrow-up text-sm"></i>
+              <span class="text-sm font-semibold">+8.3%</span>
+            </div>
+          </div>
+          <div class="relative">
+            <p-chart
+              type="bar"
+              [data]="basicData"
+              [options]="basicOptions"
+              class="relative z-10 h-80"
+            ></p-chart>
+            <div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent pointer-events-none rounded-xl"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notifications Card -->
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+        <div class="p-6 lg:p-8">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center relative">
+                <i class="pi pi-bell text-white text-xl"></i>
+                <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white flex items-center justify-center">
+                  <span class="text-white text-xs font-bold">3</span>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-gray-800">Notifications</h3>
+                <p class="text-gray-500 text-sm">System alerts & updates</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 text-orange-600">
+              <i class="pi pi-exclamation-triangle text-sm"></i>
+              <span class="text-sm font-semibold">3 New</span>
+            </div>
+          </div>
+          <div class="relative">
+            <p-chart
+              type="bar"
+              [data]="basicData"
+              [options]="basicOptions"
+              class="relative z-10 h-80"
+            ></p-chart>
+            <div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent pointer-events-none rounded-xl"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="col-span-12 xl:col-span-6">
-    <div class="card p-2 !mb-8 border border-gray-300">
-      <div class="font-semibold  text-xl mb-4">Revenue Stream</div>
-      <p-chart type="bar" [data]="basicData" [options]="basicOptions" class="h-80"/>
-    </div>
-    <div class="card p-2 !mb-8 border border-gray-300">
-      <div class="font-semibold text-xl mb-4">Notifications</div>
-      <p-chart type="bar" [data]="basicData" [options]="basicOptions" class="h-80"/>
-    </div>
+
+  <!-- Floating Action Button -->
+  <div class="fixed bottom-8 right-8">
+    <button class="w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center group">
+      <i class="pi pi-plus text-white text-xl group-hover:rotate-90 transition-transform duration-300"></i>
+    </button>
   </div>
 </div>
-

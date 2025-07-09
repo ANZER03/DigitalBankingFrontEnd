@@ -2,11 +2,19 @@ import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef, Component, effect, inject, OnInit, PLATFORM_ID } from '@angular/core';
 // import { AppConfigService } from '@/service/appconfigservice';
 import { ChartModule } from 'primeng/chart';
+import {IconField} from 'primeng/iconfield';
+import {Avatar} from 'primeng/avatar';
+import {InputIcon} from 'primeng/inputicon';
+import {Menubar} from 'primeng/menubar';
 
 @Component({
   selector: 'app-charttest',
   imports: [
-    ChartModule
+    ChartModule,
+    IconField,
+    Avatar,
+    InputIcon,
+    Menubar
   ],
   templateUrl: './charttest.component.html',
   styleUrl: './charttest.component.scss'

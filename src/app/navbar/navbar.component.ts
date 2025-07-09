@@ -4,8 +4,9 @@ import {Menubar} from 'primeng/menubar';
 import {InputIcon} from 'primeng/inputicon';
 import {Avatar} from 'primeng/avatar';
 import {MenuItem} from 'primeng/api';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {InputText} from 'primeng/inputtext';
+import {Select} from 'primeng/select';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,9 @@ import {InputText} from 'primeng/inputtext';
     Menubar,
     InputIcon,
     Avatar,
-    InputText
+    InputText,
+    Select,
+    RouterLink
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
@@ -35,39 +38,29 @@ export class NavbarComponent implements OnInit{
         }
       },
       {
-        label: 'Customers',
-        icon: 'pi pi-user',
+        label: 'Accounts',
+        icon: 'pi pi-id-card',
         command: () => {
           this.router.navigate(['/dash']);
         }
       },
       {
-        label: 'Accounts',
-        icon: 'pi pi-id-card',
+        label: 'Customers',
+        icon: 'pi pi-user',
         items: [
           {
-            label: 'Login',
-            icon: 'pi pi-bolt',
-            shortcut: '⌘+S',
+            label: 'Search Customer',
+            icon: 'pi pi-search',
             command: () => {
-              this.router.navigate(['/login']);
+              this.router.navigate(['/customer']);
             }
           },
           {
-            label: 'Chart',
-            icon: 'pi pi-server',
-            shortcut: '⌘+B',
+            label: 'New Costumer',
+            icon: 'pi pi-user-plus',
             command : ()=>{
-              this.router.navigate(['/charttest'])
+              this.router.navigate(['/new-customer'])
             }
-          },
-          {
-            separator: true,
-          },
-          {
-            label: 'UI Kit',
-            icon: 'pi pi-pencil',
-            shortcut: '⌘+U',
           },
         ],
       },
