@@ -30,12 +30,29 @@ import {AuthService} from '../services/auth.service';
 export class NavbarComponent implements OnInit{
   items: MenuItem[] | undefined;
   username!: string;
-
+  profileOptions: MenuItem[] | undefined;
   constructor(private router: Router, private authService : AuthService) {
   }
 
   ngOnInit(): void {
     this.username = this.authService.username
+    this.profileOptions = [
+      {
+        label: 'Profile',
+        icon: 'pi pi-user',
+        command: () => {
+          // this.router.navigate(['/admin/account-search']);
+        }
+      },
+      {
+        label: 'Quite',
+        icon: 'pi pi-sign-out',
+        visible: this.authService.roles.includes('ADMIN'),
+        command : ()=>{
+          this.logout()
+        }
+      }
+    ];
     this.items = [
       {
         label: 'Home',

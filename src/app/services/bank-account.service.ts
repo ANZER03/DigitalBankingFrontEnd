@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
+import {BankAccount} from '../models/BankAccount';
 
 @Injectable({
   providedIn: 'root'
@@ -22,20 +23,22 @@ export class BankAccountService {
 
 
   createAccount(formData: any) {
-    if (formData.accountType == "SAVING") {
-      let data = {
-        initialeBalance: formData.balance,
-        interestRate: formData.interestRate,
-        customerId: formData.customerId
-      }
-      return this.http.post(this.backUrl + "/accounts/saveSavingAccount", data)
-    } else {
-      let data = {
-        initialeBalance: formData.balance,
-        overDraft: formData.overdraftLimit,
-        customerId: formData.customerId
-      }
-      return this.http.post(this.backUrl + "/accounts/saveCurrentAccount", data)
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
+
+    if (formData.accountType == "SAVING") {
+      let params = new HttpParams().set("initialeBalance" , formData.balance).set("interestRate" , formData.interestRate).set("customerId", formData.customerId)
+      return this.http.post(this.backUrl + "/accounts/saveSavingAccount", params, options)
+    } else {
+      let params = new HttpParams().set("initialeBalance" , formData.balance).set("overDraft" , formData.overdraftLimit).set("customerId", formData.customerId)
+
+      return this.http.post(this.backUrl + "/accounts/saveCurrentAccount", params, options)
+    }
+  }
+
+  getAccountsByCustomer(customerId: number):Observable<Array<BankAccount>> {
+    // /customer/1/accounts
+    return this.http.get<Array<BankAccount>>(this.backUrl + "/customer/"+customerId+"/accounts")
   }
 }

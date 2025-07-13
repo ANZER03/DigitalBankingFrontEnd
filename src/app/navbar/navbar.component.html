@@ -7,21 +7,14 @@
     </ng-template>
     <ng-template #end>
       <div class="user-menu-container">
+        <p-menu #menu [model]="profileOptions" [popup]="true" />
         <p-avatar
           label="{{ username[0].toUpperCase() }}"
           styleClass="user-avatar"
+          (click)="menu.toggle($event)"
           [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }"
           shape="circle"
         />
-        <p-button
-          icon="pi pi-sign-out"
-          [text]="true"
-          severity="secondary"
-          (onClick)="logout()"
-          class="logout-button"
-          pTooltip="Logout"
-          tooltipPosition="bottom">
-        </p-button>
       </div>
     </ng-template>
   </p-menubar>

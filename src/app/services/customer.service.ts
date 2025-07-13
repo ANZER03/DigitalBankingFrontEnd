@@ -31,4 +31,8 @@ export class CustomerService {
   saveCustomer(customer: Customer): Observable<Customer> {
     return this.http.post<Customer>(this.backUrl+"/customers", customer)
   }
+
+  getCustomer(customerId: number) {
+    return this.http.get<Customer>(this.backUrl+'/customers/'+customerId);
+  }
 }

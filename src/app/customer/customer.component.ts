@@ -19,6 +19,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import {catchError, map, Observable, throwError} from 'rxjs';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {Message} from 'primeng/message';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-customer',
@@ -47,7 +48,7 @@ export class CustomerComponent implements OnInit{
   updateFormGroup! : FormGroup;
   errorMessage!: any;
   visible: boolean = false;
-  constructor(private confirmationService: ConfirmationService,private messageService: MessageService, private fb : FormBuilder, private http : HttpClient, private customerService: CustomerService) {
+  constructor(private confirmationService: ConfirmationService,private messageService: MessageService, private fb : FormBuilder, private http : HttpClient, private customerService: CustomerService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -163,5 +164,9 @@ export class CustomerComponent implements OnInit{
       }
     )
     this.visible = false;
+  }
+
+  goToAccounts(customer: any) {
+      this.router.navigateByUrl(`/admin/customer/${customer.id}/accounts`);
   }
 }

@@ -1,0 +1,129 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="card p-4 shadow-lg rounded-lg">
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800">Accounts for {{ customer?.name }}</h2>
+        <p class="text-gray-600">Customer ID: {{ customer?.id }} | Email: {{ customer?.email }}</p>
+      </div>
+<!--      <div class="flex space-x-2">-->
+<!--        <p-button-->
+<!--          label="New Account"-->
+<!--          icon="pi pi-plus"-->
+<!--          styleClass="p-button-primary"-->
+<!--          (click)="createNewAccount()">-->
+<!--        </p-button>-->
+<!--        <p-button-->
+<!--          label="Back to Customers"-->
+<!--          icon="pi pi-arrow-left"-->
+<!--          styleClass="p-button-secondary"-->
+<!--          [routerLink]="['/customers']">-->
+<!--        </p-button>-->
+<!--      </div>-->
+    </div>
+
+    <div class="mb-4 flex justify-between items-center">
+      <div class="stats flex space-x-4">
+        <div class="stat-card bg-blue-50 p-3 rounded-lg">
+          <p class="text-sm text-blue-600">Total Balance</p>
+          <p class="text-xl font-bold">{{ totalBalance | currency:'USD':'symbol':'1.2-2' }}</p>
+        </div>
+        <div class="stat-card bg-green-50 p-3 rounded-lg">
+          <p class="text-sm text-green-600">Saving Accounts</p>
+          <p class="text-xl font-bold">{{ savingAccountsCount }}</p>
+        </div>
+        <div class="stat-card bg-purple-50 p-3 rounded-lg">
+          <p class="text-sm text-purple-600">Current Accounts</p>
+          <p class="text-xl font-bold">{{ currentAccountsCount }}</p>
+        </div>
+      </div>
+    </div>
+
+    <p-table
+      [value]="accounts"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[5,10,25]"
+      [loading]="loading"
+      [globalFilterFields]="['id','type','balance','createdAt']">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">Account ID
+            <p-sortIcon field="id"></p-sortIcon>
+          </th>
+          <th pSortableColumn="type">Type
+            <p-sortIcon field="type"></p-sortIcon>
+          </th>
+          <th pSortableColumn="balance">Balance
+            <p-sortIcon field="balance"></p-sortIcon>
+          </th>
+          <th pSortableColumn="createdAt">Created
+            <p-sortIcon field="createdAt"></p-sortIcon>
+          </th>
+          <th></th>
+        </tr>
+        <tr>
+          <th colspan="5">
+            <input type="text" pInputText
+                   placeholder="Search accounts" class="w-full"/>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-account>
+        <tr>
+          <td class="font-mono text-sm">{{ account.id }}</td>
+          <td>
+            <span [ngClass]="{
+              'bg-blue-100 text-blue-800': account.type === 'SavingAccount',
+              'bg-green-100 text-green-800': account.type === 'CurrentAccount'
+            }" class="px-2 py-1 rounded-full text-xs font-medium">
+              {{ account.type }}
+              <span *ngIf="account.type === 'SavingAccount'">({{ account.interestRate }}%)</span>
+              <span
+                *ngIf="account.type === 'CurrentAccount'">(OD: {{ account.overDraft | currency:'USD':'symbol':'1.2-2' }}
+                )</span>
+            </span>
+          </td>
+          <td class="font-medium" [ngClass]="{
+            'text-green-600': account.balance >= 0,
+            'text-red-600': account.balance < 0
+          }">
+            {{ account.balance | currency:'USD':'symbol':'1.2-2' }}
+          </td>
+          <td>{{ account.createdAt | date:'mediumDate' }}</td>
+          <td>
+            <div class="flex space-x-2">
+<!--              <p-button-->
+<!--                icon="pi pi-eye"-->
+<!--                styleClass="p-button-rounded p-button-text p-button-info"-->
+<!--                (click)="viewAccountDetails(account.id)">-->
+<!--              </p-button>-->
+              <p-button
+                icon="pi pi-trash"
+                styleClass="p-button-rounded p-button-text p-button-danger"
+                (click)="confirmDelete(account)">
+              </p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="text-center py-8 text-gray-500">
+            No accounts found for this customer
+            <p-button
+              label="Create First Account"
+              icon="pi pi-plus"
+              styleClass="p-button-text mt-4"
+              (click)="createNewAccount()">
+            </p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!--<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>-->

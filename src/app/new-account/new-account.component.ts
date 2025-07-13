@@ -100,12 +100,13 @@ export class NewAccountComponent implements OnInit {
     const formData = this.bankAccountForm.value;
     this.bankAccountService.createAccount(formData).subscribe({
       next: () => {
+        // this.router.navigate(['/admin']);
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: 'Bank account created successfully'
         });
-        this.router.navigate(['/accounts']);
+        this.bankAccountForm.reset()
       },
       error: (err) => {
         this.messageService.add({
@@ -118,6 +119,6 @@ export class NewAccountComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/accounts']);
+    this.router.navigate(['/admin']);
   }
 }

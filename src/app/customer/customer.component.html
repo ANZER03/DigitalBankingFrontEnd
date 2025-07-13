@@ -61,10 +61,13 @@
             <td class="py-3 px-4 text-gray-700">{{ customer.id }}</td>
             <td class="py-3 px-4 text-gray-700">{{ customer.name }}</td>
             <td class="py-3 px-4 text-gray-700">{{ customer.email }}</td>
-            <td class="py-3 px-4">
-              <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="updateDialog(customer)"/>
-              <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+            <td class="py-3 px-4" >
+              <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                        (click)="updateDialog(customer)"/>
+              <p-button icon="pi pi-trash" class="mr-2" severity="danger" [rounded]="true" [outlined]="true"
                         (click)="handleDeleteCustomer(customer, $event)"/>
+              <p-button icon="pi pi-id-card" severity="success" [rounded]="true" [outlined]="true"
+                        (onClick)="goToAccounts(customer)"/>
             </td>
           </tr>
         </ng-template>
