@@ -1,15 +1,28 @@
 <div class="card">
   <p-menubar [model]="items">
     <ng-template #start>
-      <div routerLink="/" class="no-underline">
+      <div routerLink="/login" class="no-underline">
         <span style="font-size: 1.3rem; font-weight: bold; color: #6366f1; letter-spacing: 1px;">ANZER</span>
       </div>
     </ng-template>
     <ng-template #end>
-      <p-iconfield>
-          <p-avatar
-            image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" size="normal" shape="circle"/>
-      </p-iconfield>
+      <div class="user-menu-container">
+        <p-avatar
+          label="{{ username[0].toUpperCase() }}"
+          styleClass="user-avatar"
+          [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }"
+          shape="circle"
+        />
+        <p-button
+          icon="pi pi-sign-out"
+          [text]="true"
+          severity="secondary"
+          (onClick)="logout()"
+          class="logout-button"
+          pTooltip="Logout"
+          tooltipPosition="bottom">
+        </p-button>
+      </div>
     </ng-template>
   </p-menubar>
 </div>

@@ -1,0 +1,127 @@
+<div class="card enhanced-form-card">
+  <h3 class="form-title font-bold">Add New Bank Account</h3>
+
+  <form [formGroup]="bankAccountForm" (ngSubmit)="onSubmit()">
+    <div class="p-fluid form-fields">
+      <!-- Customer Selection -->
+      <div class="field">
+        <label for="customerId">Customer</label>
+        <p-dropdown
+          [options]="customers"
+          formControlName="customerId"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Select a customer"
+          [showClear]="true"
+          [filter]="true"
+          [filterFields]="['name', 'id']"
+          [style]="{width: '100%'}">
+          <ng-template let-customer pTemplate="item">
+            <div>
+              <span class="font-semibold">ID: {{customer.id}}</span> -
+              <span>{{customer.name}}</span>
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <small *ngIf="isFieldInvalid('customerId')" class="p-error">
+          Customer is required
+        </small>
+      </div>
+
+      <!-- Account Type Selection -->
+      <div class="field">
+        <label for="accountType">Account Type</label>
+        <p-dropdown
+          id="accountType"
+          [options]="accountTypes"
+          formControlName="accountType"
+          placeholder="Select account type"
+          [style]="{width: '100%'}"
+          [class]="{'p-invalid': isFieldInvalid('accountType')}">
+        </p-dropdown>
+        <small *ngIf="isFieldInvalid('accountType')" class="p-error">
+          Account type is required
+        </small>
+      </div>
+
+<!--      &lt;!&ndash; Account Number &ndash;&gt;-->
+<!--      <div class="field">-->
+<!--        <label for="accountNumber">Account Number</label>-->
+<!--        <input-->
+<!--          pInputText-->
+<!--          id="accountNumber"-->
+<!--          formControlName="accountNumber"-->
+<!--          placeholder="Enter account number"-->
+<!--          [class]="{'p-invalid': isFieldInvalid('accountNumber')}"/>-->
+<!--        <small *ngIf="isFieldInvalid('accountNumber')" class="p-error">-->
+<!--          Account number is required-->
+<!--        </small>-->
+<!--      </div>-->
+
+      <!-- Initial Balance -->
+      <div class="field">
+        <label for="balance">Initial Balance</label>
+        <p-inputNumber
+          id="balance"
+          formControlName="balance"
+          mode="currency"
+          currency="USD"
+          locale="en-US"
+          placeholder="Enter initial balance"
+          [class]="{'p-invalid': isFieldInvalid('balance')}">
+        </p-inputNumber>
+        <small *ngIf="isFieldInvalid('balance')" class="p-error">
+          Initial balance is required
+        </small>
+      </div>
+
+      <!-- Overdraft Limit (for Current Accounts) -->
+      <div class="field" *ngIf="bankAccountForm.get('accountType')?.value === 'CURRENT'">
+        <label for="overdraftLimit">Overdraft Limit</label>
+        <p-inputNumber
+          id="overdraftLimit"
+          formControlName="overdraftLimit"
+          mode="currency"
+          currency="USD"
+          locale="en-US"
+          placeholder="Enter overdraft limit">
+        </p-inputNumber>
+      </div>
+
+      <!-- Interest Rate (for Saving Accounts) -->
+      <div class="field" *ngIf="bankAccountForm.get('accountType')?.value === 'SAVING'">
+        <label for="interestRate">Interest Rate (%)</label>
+        <p-inputNumber
+          id="interestRate"
+          formControlName="interestRate"
+          suffix="%"
+          placeholder="Enter interest rate"
+          [min]="0"
+          [max]="20"
+          [step]="0.1">
+        </p-inputNumber>
+      </div>
+
+      <!-- Button Row -->
+      <div class="field button-row">
+        <p-button
+          label="Save"
+          icon="pi pi-check"
+          type="submit"
+          size="small"
+          styleClass="save-btn"
+          [disabled]="bankAccountForm.invalid">
+        </p-button>
+        <p-button
+          label="Cancel"
+          icon="pi pi-times"
+          severity="secondary"
+          type="button"
+          size="small"
+          styleClass="cancel-btn"
+          (click)="onCancel()">
+        </p-button>
+      </div>
+    </div>
+  </form>
+</div>

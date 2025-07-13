@@ -336,7 +336,7 @@
           </div>
 
           <!-- Add Operation Buttons -->
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap gap-2" *ngIf="authSerivce.roles.includes('ADMIN')">
             <p-button
               label="Debit"
               icon="pi pi-minus-circle"

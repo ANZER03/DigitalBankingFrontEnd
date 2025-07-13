@@ -15,6 +15,7 @@ import {AccountService} from '../services/account.service';
 import {catchError, Observable, throwError} from 'rxjs';
 import {Tag} from 'primeng/tag';
 import {MessageService} from 'primeng/api';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -48,7 +49,7 @@ export class AccountComponent implements OnInit {
   showDebitDialog: boolean = false;
   showCreditDialog: boolean = false;
   showTransferDialog: boolean = false;
-  constructor(private fb: FormBuilder, private accountService: AccountService, private messageService: MessageService) {
+  constructor(private fb: FormBuilder, private accountService: AccountService, private messageService: MessageService, public authSerivce: AuthService) {
   }
 
   ngOnInit(): void {

@@ -5,10 +5,22 @@ import {LoginComponent} from './login/login.component';
 import {CustomerComponent} from './customer/customer.component';
 import {NewCustomerComponent} from './new-customer/new-customer.component';
 import {AccountComponent} from './account/account.component';
+import {AdminComponent} from './admin/admin.component';
+import {authenticationGuard} from './guards/authentication.guard';
+import {NotAuthorizeComponent} from './not-authorize/not-authorize.component';
+import {authorizationGuard} from './guards/authorization.guard';
+import {NewAccountComponent} from './new-account/new-account.component';
 
 export const routes: Routes = [
-  { path: 'new-customer', component: NewCustomerComponent},
-  {path : "account-search" , component : AccountComponent},
   {path : "login" , component : LoginComponent},
-  {path : "customer" , component : CustomerComponent},
+  {path : "" , redirectTo : "login", pathMatch : "full"},
+  {path : "admin" , component: AdminComponent,canActivate: [authenticationGuard] ,children: [
+      { path: 'new-customer', component: NewCustomerComponent, canActivate: [authorizationGuard]},
+      {path : "customer" , component : CustomerComponent},
+      {path : "account-search" , component : AccountComponent},
+      {path : "new-account" , component : NewAccountComponent},
+      {path : "not-authorize" , component : NotAuthorizeComponent},
+    ]},
+
+
 ];
