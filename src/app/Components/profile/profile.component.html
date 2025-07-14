@@ -1,1 +1,169 @@
-<p>profile works!</p>
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-3xl mx-auto">
+    <!-- Profile Card -->
+    <div class="card shadow-lg rounded-lg overflow-hidden">
+      <!-- Header with Background -->
+      <div class="bg-gradient-to-r from-blue-500 to-blue-700 h-32 relative">
+        <div class="absolute -bottom-16 left-8">
+          <div class="w-32 h-32 rounded-full border-4 border-white bg-white flex items-center justify-center shadow-md">
+            <span class="text-5xl font-bold text-blue-700">
+              {{ customer?.name?.charAt(0) || '?' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Content -->
+      <div class="pt-20 px-6 pb-6">
+        <div class="flex justify-between items-start mb-6">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-800">{{ customer?.name }}</h2>
+            <p class="text-gray-600">{{ customer?.email }}</p>
+          </div>
+          <div class="flex space-x-2">
+            <p-button
+              label="Edit Profile"
+              icon="pi pi-user-edit"
+              styleClass="p-button-outlined p-button-secondary"
+              (click)="showEditDialog()">
+            </p-button>
+            <p-button
+              label="Change Password"
+              icon="pi pi-key"
+              styleClass="p-button-outlined"
+              (click)="showPasswordDialog()">
+            </p-button>
+          </div>
+        </div>
+
+        <!-- Details Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="detail-card">
+            <div class="flex items-center mb-2">
+              <i class="pi pi-id-card text-blue-500 mr-2"></i>
+              <h3 class="font-semibold text-gray-700">Customer ID</h3>
+            </div>
+            <p class="text-gray-900">{{ customer?.id }}</p>
+          </div>
+
+          <div class="detail-card">
+            <div class="flex items-center mb-2">
+              <i class="pi pi-envelope text-blue-500 mr-2"></i>
+              <h3 class="font-semibold text-gray-700">Email Address</h3>
+            </div>
+            <p class="text-gray-900">{{ customer?.email }}</p>
+          </div>
+
+          <div class="detail-card">
+            <div class="flex items-center mb-2">
+              <i class="pi pi-wallet text-blue-500 mr-2"></i>
+              <h3 class="font-semibold text-gray-700">Total Accounts</h3>
+            </div>
+            <p class="text-gray-900">{{ accountCount }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+    </div>
+
+    <!-- Edit Profile Dialog -->
+    <p-dialog
+      header="Edit Profile"
+      [(visible)]="displayEditDialog"
+      [style]="{width: '450px'}"
+      [modal]="true">
+
+      <form [formGroup]="editForm" (ngSubmit)="updateProfile()">
+        <div class="p-fluid">
+          <div class="field mb-4">
+            <label for="name">Name</label>
+            <input
+              pInputText
+              id="name"
+              formControlName="name"
+              placeholder="Enter your name">
+          </div>
+
+          <div class="field mb-4">
+            <label for="email">Email</label>
+            <input
+              pInputText
+              id="email"
+              formControlName="email"
+              placeholder="Enter your email">
+          </div>
+
+          <div class="flex justify-end gap-2 mt-4">
+            <p-button
+              label="Cancel"
+              icon="pi pi-times"
+              (click)="displayEditDialog=false"
+              styleClass="p-button-text">
+            </p-button>
+            <p-button
+              label="Save"
+              icon="pi pi-check"
+              type="submit"
+              [disabled]="editForm.invalid">
+            </p-button>
+          </div>
+        </div>
+      </form>
+    </p-dialog>
+
+    <!-- Change Password Dialog -->
+    <p-dialog
+      header="Change Password"
+      [(visible)]="displayPasswordDialog"
+      [style]="{width: '450px'}"
+      [modal]="true">
+
+      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+        <div class="p-fluid">
+          <div class="field mb-4">
+            <label for="currentPassword">Current Password</label>
+            <p-password
+              id="currentPassword"
+              formControlName="currentPassword"
+              [feedback]="false"
+              placeholder="Enter current password">
+            </p-password>
+          </div>
+
+          <div class="field mb-4">
+            <label for="newPassword">New Password</label>
+            <p-password
+              id="newPassword"
+              formControlName="newPassword"
+              placeholder="Enter new password">
+            </p-password>
+          </div>
+
+          <div class="field mb-4">
+            <label for="confirmPassword">Confirm Password</label>
+            <p-password
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              placeholder="Confirm new password">
+            </p-password>
+          </div>
+
+          <div class="flex justify-end gap-2 mt-4">
+            <p-button
+              label="Cancel"
+              icon="pi pi-times"
+              (click)="displayPasswordDialog=false"
+              styleClass="p-button-text">
+            </p-button>
+            <p-button
+              label="Update"
+              icon="pi pi-check"
+              type="submit"
+              [disabled]="passwordForm.invalid">
+            </p-button>
+          </div>
+        </div>
+      </form>
+    </p-dialog>

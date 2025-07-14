@@ -41,4 +41,8 @@ export class BankAccountService {
     // /customer/1/accounts
     return this.http.get<Array<BankAccount>>(this.backUrl + "/customer/"+customerId+"/accounts")
   }
+
+  getCustomerAccounts(customerId: number) {
+    return this.http.get<Array<BankAccount>>(this.backUrl + "/customer/"+customerId+"/accounts")
+  }
 }

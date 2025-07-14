@@ -35,4 +35,12 @@ export class CustomerService {
   getCustomer(customerId: number) {
     return this.http.get<Customer>(this.backUrl+'/customers/'+customerId);
   }
+
+  changePassword(customerId: number, currentPassword: any, newPassword: any) {
+      return null
+  }
+
+  getCustomerByName() {
+    return this.http.get<Customer>(this.backUrl+'/customer/profile');
+  }
 }

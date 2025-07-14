@@ -41,13 +41,12 @@ export class NavbarComponent implements OnInit{
         label: 'Profile',
         icon: 'pi pi-user',
         command: () => {
-          // this.router.navigate(['/admin/account-search']);
+          this.router.navigate(['/admin/profile']);
         }
       },
       {
         label: 'Quite',
         icon: 'pi pi-sign-out',
-        visible: this.authService.roles.includes('ADMIN'),
         command : ()=>{
           this.logout()
         }
