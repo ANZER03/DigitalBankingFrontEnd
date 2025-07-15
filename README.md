@@ -2,6 +2,8 @@
 
 A modern, responsive web application built with Angular 19 for digital banking services. This application provides a comprehensive interface for both customers and administrators to manage banking operations, accounts, and user profiles.
 
+## Backend project: [DigitalBankingBackEnd](https://github.com/ANZER03/DigitalBankingBackEnd)
+
 ## Project Overview
 
 This Digital Banking Frontend application is designed to provide a seamless banking experience with the following features:
