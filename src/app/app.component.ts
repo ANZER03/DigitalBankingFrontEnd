@@ -14,7 +14,7 @@ import {Tab, TabList, TabPanel, TabPanels, Tabs} from 'primeng/tabs';
 import {TableModule} from 'primeng/table';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
-import {NavbarComponent} from './navbar/navbar.component';
+import {NavbarComponent} from './Components/navbar/navbar.component';
 import {AuthService} from './services/auth.service';
 
 class Customer {

@@ -10,12 +10,12 @@ import {ProgressSpinner} from "primeng/progressspinner";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TableModule, TablePageEvent} from "primeng/table";
 import {Toast} from "primeng/toast";
-import {AccountDetails, AccountOperationDTO} from '../models/account.model';
-import {AccountService} from '../services/account.service';
+import {AccountDetails, AccountOperationDTO} from '../../models/account.model';
+import {AccountService} from '../../services/account.service';
 import {catchError, Observable, throwError} from 'rxjs';
 import {Tag} from 'primeng/tag';
 import {MessageService} from 'primeng/api';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-account',

@@ -6,8 +6,8 @@ import {NgIf} from '@angular/common';
 import {Toast} from 'primeng/toast';
 import {Message} from 'primeng/message';
 import {Router} from '@angular/router';
-import {Customer} from '../models/Customer';
-import {CustomerService} from '../services/customer.service';
+import {Customer} from '../../models/Customer';
+import {CustomerService} from '../../services/customer.service';
 import {ToastModule} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
 

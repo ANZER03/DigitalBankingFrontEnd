@@ -9,11 +9,11 @@ import {Table, TableModule} from 'primeng/table';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {Dialog} from 'primeng/dialog';
-import {Customer} from '../models/Customer';
+import {Customer} from '../../models/Customer';
 import {InputText} from 'primeng/inputtext';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
-import {CustomerService} from '../services/customer.service';
+import {CustomerService} from '../../services/customer.service';
 import {AsyncPipe, NgIf} from '@angular/common';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import {catchError, map, Observable, throwError} from 'rxjs';
@@ -21,7 +21,7 @@ import {ProgressSpinner} from 'primeng/progressspinner';
 import {Message} from 'primeng/message';
 import {Router} from '@angular/router';
 import {Password} from 'primeng/password';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-customer',

@@ -9,7 +9,7 @@ import {InputText} from 'primeng/inputtext';
 import {Select} from 'primeng/select';
 import {Menu} from 'primeng/menu';
 import {Button} from 'primeng/button';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',

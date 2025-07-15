@@ -10,10 +10,10 @@ import {MessageService} from 'primeng/api';
 import {DropdownModule} from 'primeng/dropdown';
 import {SelectButton} from 'primeng/selectbutton';
 import {InputNumber} from 'primeng/inputnumber';
-import {CustomerService} from '../services/customer.service';
+import {CustomerService} from '../../services/customer.service';
 import {Router} from '@angular/router';
-import {Customer} from '../models/Customer';
-import {BankAccountService} from '../services/bank-account.service';
+import {Customer} from '../../models/Customer';
+import {BankAccountService} from '../../services/bank-account.service';
 
 @Component({
   selector: 'app-new-account',

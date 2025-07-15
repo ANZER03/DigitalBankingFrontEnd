@@ -7,7 +7,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
 import {RippleModule} from 'primeng/ripple';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 import {NgIf} from '@angular/common';
 import {MessageService} from 'primeng/api';
 import {Toast} from 'primeng/toast';
