@@ -7,7 +7,6 @@ import {RouterOutlet} from '@angular/router';
   selector: 'app-admin',
   imports: [
     NavbarComponent,
-    NgIf,
     RouterOutlet
   ],
   templateUrl: './admin.component.html',

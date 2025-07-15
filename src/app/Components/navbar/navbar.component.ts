@@ -14,15 +14,10 @@ import {AuthService} from '../../services/auth.service';
 @Component({
   selector: 'app-navbar',
   imports: [
-    IconField,
     Menubar,
-    InputIcon,
     Avatar,
-    InputText,
-    Select,
     RouterLink,
     Menu,
-    Button
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'

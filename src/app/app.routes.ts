@@ -1,6 +1,4 @@
 import {Routes} from '@angular/router';
-import {CharttestComponent} from './Components/charttest/charttest.component';
-import {DashComponent} from './Components/dash/dash.component';
 import {LoginComponent} from './Components/login/login.component';
 import {CustomerComponent} from './Components/customer/customer.component';
 import {NewCustomerComponent} from './Components/new-customer/new-customer.component';

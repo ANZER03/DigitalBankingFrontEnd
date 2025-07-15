@@ -19,15 +19,11 @@ import {BankAccountService} from '../../services/bank-account.service';
   selector: 'app-new-account',
   providers: [MessageService],
   imports: [
-    Select,
     Button,
-    InputText,
-    Message,
     NgIf,
     ReactiveFormsModule,
     Toast,
     DropdownModule,
-    SelectButton,
     InputNumber
   ],
   templateUrl: './new-account.component.html',

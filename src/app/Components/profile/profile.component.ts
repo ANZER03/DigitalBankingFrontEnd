@@ -25,12 +25,10 @@ interface Activity {
   providers: [MessageService],
   imports: [
     Button,
-    Timeline,
     Dialog,
     ReactiveFormsModule,
     InputText,
     Password,
-    DatePipe,
     Toast
   ],
   templateUrl: './profile.component.html',

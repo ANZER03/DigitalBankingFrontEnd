@@ -22,7 +22,7 @@ class Customer {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CardModule, ButtonModule, Menubar, Badge, Avatar, NgClass, ChartModule, NgIf, Ripple, InputText, Tabs, TabList, Tab, TabPanels, TabPanel, TableModule, RouterLink, IconField, InputIcon, NavbarComponent],
+  imports: [RouterOutlet, CardModule, ButtonModule, ChartModule, TableModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

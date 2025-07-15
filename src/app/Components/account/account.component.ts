@@ -23,13 +23,9 @@ import {AuthService} from '../../services/auth.service';
   imports: [
     AsyncPipe,
     Button,
-    ConfirmDialog,
     Dialog,
-    IconField,
     InputText,
-    Message,
     NgIf,
-    ProgressSpinner,
     ReactiveFormsModule,
     TableModule,
     Toast,

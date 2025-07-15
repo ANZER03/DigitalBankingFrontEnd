@@ -3,7 +3,7 @@ import {Button} from 'primeng/button';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {Table, TableModule} from 'primeng/table';
 import {DropdownModule} from 'primeng/dropdown';
-import {CurrencyPipe, DatePipe, NgClass} from '@angular/common';
+import {CurrencyPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import {BankAccountService} from '../../services/bank-account.service';
 import {BankAccount} from '../../models/BankAccount';
 import {ConfirmDialog} from 'primeng/confirmdialog';
@@ -18,14 +18,13 @@ import {InputText, InputTextModule} from 'primeng/inputtext';
   providers: [MessageService],
   imports: [
     Button,
-    RouterLink,
     TableModule,
     DropdownModule,
     NgClass,
-    ConfirmDialog,
     CurrencyPipe,
     DatePipe,
-    InputTextModule
+    InputTextModule,
+    NgIf
   ],
   templateUrl: './customer-accounts.component.html',
   styleUrl: './customer-accounts.component.scss'
