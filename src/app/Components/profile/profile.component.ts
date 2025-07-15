@@ -12,6 +12,7 @@ import {MessageService} from 'primeng/api';
 import {BankAccountService} from '../../services/bank-account.service';
 import {DatePipe} from '@angular/common';
 import {AuthService} from '../../services/auth.service';
+import {Toast} from 'primeng/toast';
 
 interface Activity {
   action: string;
@@ -29,12 +30,13 @@ interface Activity {
     ReactiveFormsModule,
     InputText,
     Password,
-    DatePipe
+    DatePipe,
+    Toast
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit {
   customerId!: number;
   customer!: Customer;
   accountCount = 0;
@@ -72,7 +74,7 @@ export class ProfileComponent implements OnInit{
     private messageService: MessageService
   ) {
     this.editForm = this.fb.group({
-      id : 0,
+      id: 0,
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]]
     });
@@ -81,7 +83,7 @@ export class ProfileComponent implements OnInit{
       currentPassword: ['', Validators.required],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
-    }, { validators: this.passwordMatchValidator });
+    }, {validators: this.passwordMatchValidator});
   }
 
   ngOnInit(): void {
@@ -94,7 +96,7 @@ export class ProfileComponent implements OnInit{
         this.customer = customer;
         this.customerId = customer.id
         this.editForm.patchValue({
-          id : customer.id,
+          id: customer.id,
           name: customer.name,
           email: customer.email
         });
@@ -154,32 +156,33 @@ export class ProfileComponent implements OnInit{
   }
 
   changePassword(): void {
-    // if (this.passwordForm.invalid) return;
-    //
-    // const { currentPassword, newPassword } = this.passwordForm.value;
-    // this.customerService.changePassword(this.customerId, currentPassword, newPassword).subscribe({
-    //   next: () => {
-    //     this.messageService.add({
-    //       severity: 'success',
-    //       summary: 'Success',
-    //       detail: 'Password changed successfully'
-    //     });
-    //     this.displayPasswordDialog = false;
-    //   },
-    //   error: (err) => {
-    //     this.messageService.add({
-    //       severity: 'error',
-    //       summary: 'Error',
-    //       detail: err.error?.message || 'Failed to change password'
-    //     });
-    //   }
-    // });
+    if (this.passwordForm.invalid) return;
+
+    const {currentPassword, newPassword, confirmPassword} = this.passwordForm.value;
+    this.customerService.changePassword(this.customerId, currentPassword, newPassword, confirmPassword).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Password changed successfully'
+        });
+        this.displayPasswordDialog = false;
+        this.authService.logout()
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error?.message || 'Failed to change password'
+        });
+      }
+    });
   }
 
   passwordMatchValidator(form: FormGroup): { [key: string]: boolean } | null {
     const newPassword = form.get('newPassword')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
 
-    return newPassword === confirmPassword ? null : { mismatch: true };
+    return newPassword === confirmPassword ? null : {mismatch: true};
   }
 }

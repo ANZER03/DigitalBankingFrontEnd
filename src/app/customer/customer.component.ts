@@ -11,7 +11,7 @@ import {InputIcon} from 'primeng/inputicon';
 import {Dialog} from 'primeng/dialog';
 import {Customer} from '../models/Customer';
 import {InputText} from 'primeng/inputtext';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {CustomerService} from '../services/customer.service';
 import {AsyncPipe, NgIf} from '@angular/common';
@@ -20,6 +20,8 @@ import {catchError, map, Observable, throwError} from 'rxjs';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {Message} from 'primeng/message';
 import {Router} from '@angular/router';
+import {Password} from 'primeng/password';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-customer',
@@ -35,7 +37,8 @@ import {Router} from '@angular/router';
     AsyncPipe,
     ProgressSpinner,
     Message,
-    Dialog
+    Dialog,
+    Password
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './customer.component.html',
@@ -48,7 +51,10 @@ export class CustomerComponent implements OnInit{
   updateFormGroup! : FormGroup;
   errorMessage!: any;
   visible: boolean = false;
-  constructor(private confirmationService: ConfirmationService,private messageService: MessageService, private fb : FormBuilder, private http : HttpClient, private customerService: CustomerService, private router: Router) {
+  displayPasswordDialog: boolean = false;
+  passwordForm!: FormGroup;
+  customerId!: number;
+  constructor(public authService: AuthService,private confirmationService: ConfirmationService,private messageService: MessageService, private fb : FormBuilder, private http : HttpClient, private customerService: CustomerService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -60,6 +66,11 @@ export class CustomerComponent implements OnInit{
       name : this.fb.control(""),
       email: this.fb.control("")
     })
+    this.passwordForm = this.fb.group({
+      currentPassword: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required]
+    }, {validators: this.passwordMatchValidator});
     this.searchCustomers()
 
     // this.customers = this.customerService.getCustomers().subscribe({
@@ -168,5 +179,41 @@ export class CustomerComponent implements OnInit{
 
   goToAccounts(customer: any) {
       this.router.navigateByUrl(`/admin/customer/${customer.id}/accounts`);
+  }
+
+  showPasswordDialog(customer: Customer) {
+    this.customerId = customer.id;
+    this.passwordForm.reset();
+    this.displayPasswordDialog = true;
+  }
+  passwordMatchValidator(form: FormGroup): { [key: string]: boolean } | null {
+    const newPassword = form.get('newPassword')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+
+    return newPassword === confirmPassword ? null : {mismatch: true};
+  }
+
+  changePassword(): void {
+    if (this.passwordForm.invalid) return;
+
+    const {currentPassword, newPassword, confirmPassword} = this.passwordForm.value;
+    this.customerService.changePassword(this.customerId, currentPassword, newPassword, confirmPassword).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Password changed successfully'
+        });
+        this.displayPasswordDialog = false;
+        // this.authService.logout()
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error?.message || 'Failed to change password'
+        });
+      }
+    });
   }
 }

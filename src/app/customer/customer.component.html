@@ -61,13 +61,15 @@
             <td class="py-3 px-4 text-gray-700">{{ customer.id }}</td>
             <td class="py-3 px-4 text-gray-700">{{ customer.name }}</td>
             <td class="py-3 px-4 text-gray-700">{{ customer.email }}</td>
-            <td class="py-3 px-4" >
+            <td class="py-3 px-4">
               <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
                         (click)="updateDialog(customer)"/>
               <p-button icon="pi pi-trash" class="mr-2" severity="danger" [rounded]="true" [outlined]="true"
                         (click)="handleDeleteCustomer(customer, $event)"/>
-              <p-button icon="pi pi-id-card" severity="success" [rounded]="true" [outlined]="true"
+              <p-button icon="pi pi-id-card" class="mr-2" severity="success" [rounded]="true" [outlined]="true"
                         (onClick)="goToAccounts(customer)"/>
+              <p-button icon="pi pi-key" class="mr-2" severity="help" [rounded]="true" [outlined]="true"
+                        (onClick)="showPasswordDialog(customer)" *ngIf="authService.roles.includes('ADMIN')"/>
             </td>
           </tr>
         </ng-template>
@@ -91,6 +93,59 @@
           </div>
         </form>
       </div>
+    </p-dialog>
+    <p-dialog
+      header="Change Password"
+      [(visible)]="displayPasswordDialog"
+      [style]="{width: '450px'}"
+      [modal]="true">
+
+      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+        <div class="p-fluid">
+          <div class="field mb-4">
+            <label for="currentPassword">Current Password</label>
+            <p-password
+              id="currentPassword"
+              formControlName="currentPassword"
+              [feedback]="false"
+              placeholder="Enter current password">
+            </p-password>
+          </div>
+
+          <div class="field mb-4">
+            <label for="newPassword">New Password</label>
+            <p-password
+              id="newPassword"
+              formControlName="newPassword"
+              placeholder="Enter new password">
+            </p-password>
+          </div>
+
+          <div class="field mb-4">
+            <label for="confirmPassword">Confirm Password</label>
+            <p-password
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              placeholder="Confirm new password">
+            </p-password>
+          </div>
+
+          <div class="flex justify-end gap-2 mt-4">
+            <p-button
+              label="Cancel"
+              icon="pi pi-times"
+              (click)="displayPasswordDialog=false"
+              styleClass="p-button-text">
+            </p-button>
+            <p-button
+              label="Update"
+              icon="pi pi-check"
+              type="submit"
+              [disabled]="passwordForm.invalid">
+            </p-button>
+          </div>
+        </div>
+      </form>
     </p-dialog>
 
     <style>

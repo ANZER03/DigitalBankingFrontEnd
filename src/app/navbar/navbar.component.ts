@@ -45,6 +45,13 @@ export class NavbarComponent implements OnInit{
         }
       },
       {
+        label: 'Dashboard',
+        icon: 'pi pi-chart-pie\n',
+        command : ()=>{
+          this.router.navigate(['/admin/dashboard']);
+        }
+      },
+      {
         label: 'Quite',
         icon: 'pi pi-sign-out',
         command : ()=>{
@@ -53,13 +60,13 @@ export class NavbarComponent implements OnInit{
       }
     ];
     this.items = [
-      {
-        label: 'Home',
-        icon: 'pi pi-home',
-        command: () => {
-          this.router.navigate(['/']);
-        }
-      },
+      // {
+      //   label: 'Home',
+      //   icon: 'pi pi-home',
+      //   command: () => {
+      //     this.router.navigate(['/']);
+      //   }
+      // },
       {
         label: 'Accounts',
         icon: 'pi pi-id-card',

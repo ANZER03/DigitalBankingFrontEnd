@@ -12,6 +12,7 @@ import {authorizationGuard} from './guards/authorization.guard';
 import {NewAccountComponent} from './new-account/new-account.component';
 import {CustomerAccountsComponent} from './customer-accounts/customer-accounts.component';
 import {ProfileComponent} from './Components/profile/profile.component';
+import {DashboardComponent} from './Components/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -25,6 +26,7 @@ export const routes: Routes = [
       {path: "account-search", component: AccountComponent},
       {path: "new-account", component: NewAccountComponent},
       {path: "not-authorize", component: NotAuthorizeComponent},
+      {path : "dashboard", component: DashboardComponent}
     ]
   },
 
